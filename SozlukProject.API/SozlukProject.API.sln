@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B9CA0239-178F-4F48-8868-DA7083AF9FEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SozlukProject.WebAPI", "src\SozlukProject.WebAPI\SozlukProject.WebAPI.csproj", "{608A2952-35BA-47E8-81E2-0793E8515E4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SozlukProject.Domain", "src\SozlukProject.Domain\SozlukProject.Domain.csproj", "{05AC5C66-BC88-430E-9AC2-DF052C51FEBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SozlukProject.Service", "src\SozlukProject.Service\SozlukProject.Service.csproj", "{3937B8C6-879C-4202-9B38-99B73B5E9AC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SozlukProject.Persistence", "src\SozlukProject.Persistence\SozlukProject.Persistence.csproj", "{0BF35F32-9880-41C6-8B56-0E34F36CE861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SozlukProject.Infrastructure", "src\SozlukProject.Infrastructure\SozlukProject.Infrastructure.csproj", "{C25CCC95-0BC7-420D-96CC-225623E6FB94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{608A2952-35BA-47E8-81E2-0793E8515E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608A2952-35BA-47E8-81E2-0793E8515E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608A2952-35BA-47E8-81E2-0793E8515E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608A2952-35BA-47E8-81E2-0793E8515E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AC5C66-BC88-430E-9AC2-DF052C51FEBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AC5C66-BC88-430E-9AC2-DF052C51FEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AC5C66-BC88-430E-9AC2-DF052C51FEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AC5C66-BC88-430E-9AC2-DF052C51FEBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3937B8C6-879C-4202-9B38-99B73B5E9AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3937B8C6-879C-4202-9B38-99B73B5E9AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3937B8C6-879C-4202-9B38-99B73B5E9AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3937B8C6-879C-4202-9B38-99B73B5E9AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BF35F32-9880-41C6-8B56-0E34F36CE861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BF35F32-9880-41C6-8B56-0E34F36CE861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BF35F32-9880-41C6-8B56-0E34F36CE861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BF35F32-9880-41C6-8B56-0E34F36CE861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C25CCC95-0BC7-420D-96CC-225623E6FB94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C25CCC95-0BC7-420D-96CC-225623E6FB94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C25CCC95-0BC7-420D-96CC-225623E6FB94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C25CCC95-0BC7-420D-96CC-225623E6FB94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{608A2952-35BA-47E8-81E2-0793E8515E4C} = {B9CA0239-178F-4F48-8868-DA7083AF9FEE}
+		{05AC5C66-BC88-430E-9AC2-DF052C51FEBE} = {B9CA0239-178F-4F48-8868-DA7083AF9FEE}
+		{3937B8C6-879C-4202-9B38-99B73B5E9AC7} = {B9CA0239-178F-4F48-8868-DA7083AF9FEE}
+		{0BF35F32-9880-41C6-8B56-0E34F36CE861} = {B9CA0239-178F-4F48-8868-DA7083AF9FEE}
+		{C25CCC95-0BC7-420D-96CC-225623E6FB94} = {B9CA0239-178F-4F48-8868-DA7083AF9FEE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C145A6E9-DA4A-4150-A8AD-DA4BCA7EE8F3}
+	EndGlobalSection
+EndGlobal

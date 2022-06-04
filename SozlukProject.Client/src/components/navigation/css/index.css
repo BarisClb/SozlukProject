@@ -4,4 +4,10 @@
 	justify-content: center;
 	align-items: center;
 	border-bottom: solid 1px black;
+	gap: 3rem;
+}
+
+#main-navigation a {
+	text-decoration: none;
+	color: rgba(rgb(15, 45, 75), green, blue, alpha);
 }

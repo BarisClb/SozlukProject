@@ -60,7 +60,9 @@
 
 /* Welcome Page */
 
-#welcome-page-wrapper {
+#welcome-page-wrapper,
+#page-one-wrapper,
+#page-two-wrapper {
 	width: 100vw;
 	height: calc(100vh - 50px);
 	display: flex;

@@ -1,11 +1,17 @@
+using SozlukProject.Persistence;
+using SozlukProject.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//// Service Registrations
+// MsSQL Connection
+builder.Services.ImplementPersistenceServices(builder.Configuration.GetConnectionString("MsSQL"));
+builder.Services.ImplementServiceServices();
 
 // Adding CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ECommerceProject",
+    options.AddPolicy("SozlukProject",
         builder =>
         {
             builder.WithOrigins("http://localhost:3000",

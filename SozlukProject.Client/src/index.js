@@ -10,6 +10,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import CommonMain from "./screens/common/CommonMain";
 import Welcome from "./screens/common/Welcome";
+import PageOne from "./components/common/PageOne";
+import PageTwo from "./components/common/PageTwo";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +22,8 @@ root.render(
 					{/* I use a single 'roof' Route to access all the related routes (For common checks, like 'darkMode' and Auth purposes, etc) */}
 					<Route path="/" element={<CommonMain />}>
 						<Route path="/" element={<Welcome />} />
+						<Route path="/pageone" element={<PageOne />} />
+						<Route path="/pagetwo" element={<PageTwo />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>

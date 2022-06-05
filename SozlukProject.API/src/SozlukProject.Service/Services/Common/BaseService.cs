@@ -34,7 +34,7 @@ namespace SozlukProject.Service.Services
             // First, we get the list. (Depending on if the User is Searching for a word or not.)
             IList<TEntity> entityList;
             if (searchWordPredicate != null)
-                entityList = _genericRepository.Get(searchWordPredicate).ToList();
+                entityList = _genericRepository.Get(searchWordPredicate, false).ToList();
             else
                 entityList = _genericRepository.Get(tracking: false).ToList();
 
@@ -74,8 +74,9 @@ namespace SozlukProject.Service.Services
 
         public virtual async Task<SuccessfulResponse<int>> CreateEntity(TEntityCreateDto entityCreateDto)
         {
-            int entityId = await _genericRepository.AddAsync(_mapper.Map<TEntityCreateDto, TEntity>(entityCreateDto));
-            return new SuccessfulResponse<int>("Entity updated.", entityId);
+            TEntity entity = _mapper.Map<TEntityCreateDto, TEntity>(entityCreateDto);
+            await _genericRepository.AddAsync(entity);
+            return new SuccessfulResponse<int>("Entity updated.", entity.Id);
         }
 
         public virtual async Task<BaseResponse> UpdateEntity(TEntityUpdateDto entityUpdateDto)
@@ -83,8 +84,8 @@ namespace SozlukProject.Service.Services
             if (await _genericRepository.GetByIdAsync(entityUpdateDto.Id, false) == null)
                 return new FailResponse("Entity does not exist.");
 
-            int entityId = await _genericRepository.UpdateAsync(_mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto));
-            return new SuccessfulResponse<int>("Entity updated.", entityId);
+            await _genericRepository.UpdateAsync(_mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto));
+            return new SuccessfulResponse<int>("Entity updated.", entityUpdateDto.Id);
         }
 
         public virtual async Task<BaseResponse> DeleteEntity(int entityId)

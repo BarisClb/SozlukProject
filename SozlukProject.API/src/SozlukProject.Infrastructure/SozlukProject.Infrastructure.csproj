@@ -10,4 +10,13 @@
     <Folder Include="Jwt\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SozlukProject.Domain\SozlukProject.Domain.csproj" />
+    <ProjectReference Include="..\SozlukProject.Service\SozlukProject.Service.csproj" />
+  </ItemGroup>
+
 </Project>

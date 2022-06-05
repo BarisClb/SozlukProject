@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SozlukProject.Domain.Entities;
 using SozlukProject.Domain.Repositories;
-using SozlukProject.Persistence.Context;
+using SozlukProject.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace SozlukProject.Persistence.Repositories
             return await query.FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null, bool tracking = true)
         {
             IQueryable<TEntity> query = Table.AsQueryable();
 

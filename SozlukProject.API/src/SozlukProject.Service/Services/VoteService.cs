@@ -17,6 +17,5 @@ namespace SozlukProject.Service.Services
         }
 
 
-
     }
 }

@@ -13,7 +13,7 @@ namespace SozlukProject.Domain.Repositories
         // Read
         Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true);
         Task<TEntity> GetByIdAsync(int id, bool tracking = true);
-        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, bool tracking = true);
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null, bool tracking = true);
 
         // Create / Update / Delete
         int Add(TEntity entity);

@@ -1,9 +1,11 @@
+using SozlukProject.Infrastructure;
 using SozlukProject.Persistence;
 using SozlukProject.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //// Service Registrations
+builder.Services.ImplementInfrastructureServices();
 // MsSQL Connection
 builder.Services.ImplementPersistenceServices(builder.Configuration.GetConnectionString("MsSQL"));
 builder.Services.ImplementServiceServices();

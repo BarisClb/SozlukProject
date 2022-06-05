@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SozlukProject.Persistence.Context
+namespace SozlukProject.Persistence.Contexts
 {
     public class SozlukProjectDbContext : DbContext
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SozlukProject.Domain.Repositories;
-using SozlukProject.Persistence.Context;
+using SozlukProject.Persistence.Contexts;
 using SozlukProject.Persistence.Repositories;
 using System;
 using System.Collections.Generic;

@@ -20,43 +20,43 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] EntityListSortValues sortValues)
         {
-            return Ok();
+            return Ok(await _commentService.GetSortedCommentList(sortValues));
         }
 
         [HttpGet("{commentId}")]
         public async Task<IActionResult> Get(int commentId)
         {
-            return Ok();
+            return Ok(await _commentService.GetEntityById(commentId));
         }
 
         [HttpGet("ByDiscussion/{discussionId}")]
         public async Task<IActionResult> ByDiscussion(int discussionId, [FromQuery] EntityListSortValues sortValues)
         {
-            return Ok();
+            return Ok(await _commentService.GetSortedCommentList(sortValues, "Discussion", discussionId));
         }
 
         [HttpGet("ByUser/{userId}")]
         public async Task<IActionResult> ByUser(int userId, [FromQuery] EntityListSortValues sortValues)
         {
-            return Ok();
+            return Ok(await _commentService.GetSortedCommentList(sortValues, "User", userId));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(CommentCreateDto commentCreateDto)
         {
-            return Ok();
+            return Ok(await _commentService.CreateComment(commentCreateDto));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(CommentUpdateDto commentUpdateDto)
         {
-            return Ok();
+            return Ok(await _commentService.UpdateComment(commentUpdateDto));
         }
 
         [HttpDelete("{commentId}")]
         public async Task<IActionResult> Delete(int commentId)
         {
-            return Ok();
+            return Ok(await _commentService.DeleteEntity(commentId));
         }
     }
 }

@@ -29,27 +29,33 @@ namespace SozlukProject.Service.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<SortedResponse<IList<TEntityResponseDto>, EntityListSortValues>> GetSortedEntityList(EntityListSortValues sortValues, Expression<Func<TEntity, bool>> searchWordPredicate = null, Expression<Func<TEntity, bool>> orderByPredicate = null)
+        public virtual async Task<SortedResponse<IList<TEntityResponseDto>, EntityListSortValues>> GetSortedEntityList(EntityListSortValues sortValues, Expression<Func<TEntity, bool>>? searchWordPredicate = null, Expression<Func<TEntity, object>>? orderByKeySelector = null, Expression<Func<TEntity, bool>>? entitiesByEntityPredicate = null)
         {
-            // First, we get the list. (Depending on if the User is Searching for a word or not.)
+            // First of all, we prepare the list.
             IList<TEntity> entityList;
-            if (searchWordPredicate != null)
-                entityList = _genericRepository.Get(searchWordPredicate, false).ToList();
+
+            // We can start from scratch (GetAll) or we can use the Predicate for 'GetEntitiesByEntity' method.
+            if (entitiesByEntityPredicate != null)
+                entityList = _genericRepository.Get(entitiesByEntityPredicate, false).ToList();
             else
                 entityList = _genericRepository.Get(tracking: false).ToList();
+
+            // Now we check if sortValues has a 'SearchWord' and if true, we sort the list that contains that word.
+            if (searchWordPredicate != null)
+                entityList = entityList.AsQueryable().Where(searchWordPredicate).ToList();
 
             // Then, we apply two Sorting methods, Reverse? and OrderBy?
             if (sortValues.Reversed)
             {
-                if (orderByPredicate != null)
-                    entityList = entityList.AsQueryable().OrderByDescending(orderByPredicate).ToList();
+                if (orderByKeySelector != null)
+                    entityList = entityList.AsQueryable().OrderByDescending(orderByKeySelector).ToList();
                 else
                     entityList = entityList.Reverse().ToList();
             }
             else
             {
-                if (orderByPredicate != null)
-                    entityList = entityList.AsQueryable().OrderBy(orderByPredicate).ToList();
+                if (orderByKeySelector != null)
+                    entityList = entityList.AsQueryable().OrderBy(orderByKeySelector).ToList();
             }
 
             // Pagination and Mapping
@@ -65,27 +71,28 @@ namespace SozlukProject.Service.Services
 
         public virtual async Task<BaseResponse> GetEntityById(int entityId)
         {
-            TEntity entity = await _genericRepository.GetByIdAsync(entityId);
+            TEntity entity = await _genericRepository.GetByIdAsync(entityId, false);
             if (entity == null)
                 return new FailResponse("Entity does not exist.");
 
-            return new SuccessfulResponse<TEntityResponseDto>("Entity created.", _mapper.Map<TEntity, TEntityResponseDto>(entity));
+            return new SuccessfulResponse<TEntityResponseDto>(_mapper.Map<TEntity, TEntityResponseDto>(entity));
         }
 
-        public virtual async Task<SuccessfulResponse<int>> CreateEntity(TEntityCreateDto entityCreateDto)
+        public virtual async Task<SuccessfulResponse<TEntity>> CreateEntity(TEntityCreateDto entityCreateDto)
         {
             TEntity entity = _mapper.Map<TEntityCreateDto, TEntity>(entityCreateDto);
             await _genericRepository.AddAsync(entity);
-            return new SuccessfulResponse<int>("Entity updated.", entity.Id);
+            return new SuccessfulResponse<TEntity>("Entity updated.", entity);
         }
 
-        public virtual async Task<BaseResponse> UpdateEntity(TEntityUpdateDto entityUpdateDto)
+        public virtual async Task<BaseResponse> UpdateEntity(TEntity entity)
         {
-            if (await _genericRepository.GetByIdAsync(entityUpdateDto.Id, false) == null)
-                return new FailResponse("Entity does not exist.");
+            //if (await _genericRepository.GetByIdAsync(entityUpdateDto.Id, false) == null)
+            //    return new FailResponse("Entity does not exist.");
 
-            await _genericRepository.UpdateAsync(_mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto));
-            return new SuccessfulResponse<int>("Entity updated.", entityUpdateDto.Id);
+            // await _genericRepository.UpdateAsync(_mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto));
+            await _genericRepository.UpdateAsync(entity);
+            return new SuccessfulResponse<TEntity>("Entity updated.", entity);
         }
 
         public virtual async Task<BaseResponse> DeleteEntity(int entityId)

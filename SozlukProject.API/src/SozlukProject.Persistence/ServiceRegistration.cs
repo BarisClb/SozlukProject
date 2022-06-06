@@ -33,6 +33,8 @@ namespace SozlukProject.Persistence
             
             // Vote
             services.AddScoped<IVoteRepository, VoteRepository>();
+
+
         }
     }
 }

@@ -33,5 +33,33 @@ namespace SozlukProject.Persistence.Contexts
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //// Comment
+
+            // modelBuilder.Entity<Comment>();
+
+
+            // Discussion
+
+            modelBuilder.Entity<Discussion>()
+                .HasMany(discussion => discussion.Votes)
+                .WithOne(votes => votes.Discussion)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            // User
+
+            modelBuilder.Entity<User>()
+                .HasMany(user => user.Votes)
+                .WithOne(votes => votes.User)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            //// Vote
+
+            // modelBuilder.Entity<Vote>();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _discussionService.GetById(id));
+            return Ok(await _discussionService.GetEntityById(id));
         }
 
         [HttpGet]
@@ -40,7 +40,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(DiscussionCreateDto discussionCreateDto)
         {
-            return Ok();
+            return Ok(await _discussionService.CreateEntity(discussionCreateDto));
         }
 
         [HttpPut]

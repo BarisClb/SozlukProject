@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SozlukProject.Domain.Entities;
+using SozlukProject.Service.Dtos.Create;
 using SozlukProject.Service.Dtos.Response;
+using SozlukProject.Service.Dtos.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,13 @@ namespace SozlukProject.Infrastructure.AutoMapper.Profiles
     {
         public UserProfile()
         {
+            // When Creating
+            CreateMap<UserCreateDto, User>();
+
+            // When Updating
+            CreateMap<UserUpdateDto, User>();
+
+            // When Listing/Getting
             CreateMap<User, UserResponseDto>();
         }
     }

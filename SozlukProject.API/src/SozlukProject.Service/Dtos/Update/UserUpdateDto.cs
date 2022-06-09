@@ -14,5 +14,7 @@ namespace SozlukProject.Service.Dtos.Update
         public string? Password { get; set; }
         public bool? Admin { get; set; }
         public string? AdminPassword { get; set; }
+        public bool? Active { get; set; }
+        public bool? Banned { get; set; }
     }
 }

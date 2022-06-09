@@ -19,40 +19,34 @@ namespace SozlukProject.WebAPI.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            return Ok(await _discussionService.GetEntityById(id));
-        }
-
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] EntityListSortValues sortValues)
         {
-            return Ok();
+            return Ok(await _discussionService.GetSortedDiscussionList(sortValues));
         }
 
-        //[HttpGet("{discussionId}")]
-        //public async Task<IActionResult> Get(int discussionId)
-        //{
-        //    return Ok();
-        //}
+        [HttpGet("{discussionId}")]
+        public async Task<IActionResult> Get(int discussionId)
+        {
+            return Ok(await _discussionService.GetEntityById(discussionId));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post(DiscussionCreateDto discussionCreateDto)
         {
-            return Ok(await _discussionService.CreateEntity(discussionCreateDto));
+            return Ok(await _discussionService.CreateDiscussion(discussionCreateDto));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(DiscussionUpdateDto discussionUpdateDto)
         {
-            return Ok();
+            return Ok(await _discussionService.UpdateDiscussion(discussionUpdateDto));
         }
 
         [HttpDelete("{discussionId}")]
         public async Task<IActionResult> Delete(int discussionId)
         {
-            return Ok();
+            return Ok(await _discussionService.DeleteEntity(discussionId));
         }
     }
 }

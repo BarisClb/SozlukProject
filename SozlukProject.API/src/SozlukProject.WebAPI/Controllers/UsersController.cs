@@ -12,39 +12,41 @@ namespace SozlukProject.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         readonly private UserService _userService;
+
         public UsersController(UserService userService)
         {
             _userService = userService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] EntityListSortValues sortValues)
         {
-            return Ok();
+            return Ok(await _userService.GetSortedUserList(sortValues));
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(int userId)
         {
-            return Ok();
+            return Ok(await _userService.GetEntityById(userId));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(UserCreateDto userCreateDto)
         {
-            return Ok();
+            return Ok(await _userService.CreateUser(userCreateDto));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(UserUpdateDto userUpdateDto)
         {
-            return Ok();
+            return Ok(await _userService.UpdateUser(userUpdateDto));
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(int userId)
         {
-            return Ok();
+            return Ok(await _userService.DeleteUser(userId));
         }
     }
 }

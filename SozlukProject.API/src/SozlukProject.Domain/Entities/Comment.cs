@@ -9,6 +9,7 @@ namespace SozlukProject.Domain.Entities
     public class Comment : BaseEntity
     {
         public string Text { get; set; }
+        public int VoteRating { get; set; } = 0;
 
         //// Relations
         // Discussion where the Comment is written

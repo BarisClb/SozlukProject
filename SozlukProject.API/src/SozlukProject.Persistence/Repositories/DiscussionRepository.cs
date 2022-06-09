@@ -11,7 +11,7 @@ namespace SozlukProject.Persistence.Repositories
 {
     public class DiscussionRepository : GenericRepository<Discussion>, IDiscussionRepository
     {
-        public DiscussionRepository(SozlukProjectDbContext context) : base(context) 
+        public DiscussionRepository(SozlukProjectDbContext context) : base(context)
         { }
-}
+    }
 }

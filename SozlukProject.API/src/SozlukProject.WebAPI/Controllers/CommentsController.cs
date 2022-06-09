@@ -12,10 +12,14 @@ namespace SozlukProject.WebAPI.Controllers
     public class CommentsController : ControllerBase
     {
         readonly private CommentService _commentService;
-        public CommentsController(CommentService commentService)
+        readonly private DiscussionPageService _discussionPageService;
+
+        public CommentsController(CommentService commentService, DiscussionPageService discussionPageService)
         {
             _commentService = commentService;
+            _discussionPageService = discussionPageService;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] EntityListSortValues sortValues)
@@ -44,7 +48,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CommentCreateDto commentCreateDto)
         {
-            return Ok(await _commentService.CreateComment(commentCreateDto));
+            return Ok(await _discussionPageService.CreateComment(commentCreateDto));
         }
 
         [HttpPut]
@@ -56,7 +60,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpDelete("{commentId}")]
         public async Task<IActionResult> Delete(int commentId)
         {
-            return Ok(await _commentService.DeleteEntity(commentId));
+            return Ok(await _discussionPageService.DeleteComment(commentId));
         }
     }
 }

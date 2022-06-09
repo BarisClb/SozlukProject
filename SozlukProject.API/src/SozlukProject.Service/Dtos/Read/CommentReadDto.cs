@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SozlukProject.Service.Dtos.Response
+namespace SozlukProject.Service.Dtos.Read
 {
-    public class CommentResponseDto : BaseEntityResponseDto
+    public class CommentReadDto : BaseEntityReadDto
     {
         public string Text { get; set; }
+        public int VoteCount { get; set; }
 
         //// Relations
         // Discussion where the Comment is written
         public int DiscussionId { get; set; }
 
         // User who Commented
-        public string? UserUsername { get; set; }
         public int UserId { get; set; }
 
     }

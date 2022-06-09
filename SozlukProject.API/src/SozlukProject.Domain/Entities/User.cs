@@ -12,7 +12,9 @@ namespace SozlukProject.Domain.Entities
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool Admin { get; set; }
+        public bool Admin { get; set; } = false;
+        public bool Active { get; set; } = false;
+        public bool Banned { get; set; } = false;
 
         //// Relations
         // Comments by User

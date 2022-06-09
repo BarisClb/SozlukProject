@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SozlukProject.Domain.Entities;
 using SozlukProject.Service.Dtos.Create;
-using SozlukProject.Service.Dtos.Response;
+using SozlukProject.Service.Dtos.Read;
 using SozlukProject.Service.Dtos.Update;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,14 @@ namespace SozlukProject.Infrastructure.AutoMapper.Profiles
         public UserProfile()
         {
             // When Creating
-            CreateMap<UserCreateDto, User>();
+            CreateMap<UserCreateDto, User>().ReverseMap();
 
             // When Updating
-            CreateMap<UserUpdateDto, User>();
+            CreateMap<UserUpdateDto, User>().ReverseMap();
 
-            // When Listing/Getting
-            CreateMap<User, UserResponseDto>();
+            // When Listing/Reading
+            CreateMap<User, UserReadDto>().ReverseMap();
+            CreateMap<User, UserDiscussionPageReadDto>().ReverseMap();
         }
     }
 }

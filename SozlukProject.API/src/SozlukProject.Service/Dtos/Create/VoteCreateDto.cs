@@ -15,9 +15,6 @@ namespace SozlukProject.Service.Dtos.Create
         // Comment the User Voted
         public int CommentId { get; set; }
 
-        // Discussion where the Comment is written
-        public int DiscussionId { get; set; }
-
         // User who Voted
         public int UserId { get; set; }
     }

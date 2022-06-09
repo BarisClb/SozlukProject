@@ -9,5 +9,6 @@ namespace SozlukProject.Service.Dtos.Update
     public class DiscussionUpdateDto : BaseEntityUpdateDto
     {
         public string? Title { get; set; }
+        public int? CommentCount { get; set; }
     }
 }

@@ -23,6 +23,9 @@ namespace SozlukProject.Service
 
             // Vote
             services.AddScoped<VoteService>();
+
+            // Discussion Page
+            services.AddScoped<DiscussionPageService>();
         }
     }
 }

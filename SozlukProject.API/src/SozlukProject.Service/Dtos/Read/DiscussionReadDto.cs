@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SozlukProject.Service.Dtos.Response
+namespace SozlukProject.Service.Dtos.Read
 {
-    public class DiscussionResponseDto : BaseEntityResponseDto
+    public class DiscussionReadDto : BaseEntityReadDto
     {
         public string Title { get; set; }
+        public int CommentCount { get; set; }
     }
 }

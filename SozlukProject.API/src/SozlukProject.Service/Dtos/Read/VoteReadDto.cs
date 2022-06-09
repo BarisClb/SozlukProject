@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SozlukProject.Service.Dtos.Response
+namespace SozlukProject.Service.Dtos.Read
 {
-    public class VoteResponseDto : BaseEntityResponseDto
+    public class VoteReadDto : BaseEntityReadDto
     {
         public VoteType VoteType { get; set; }
 
@@ -15,11 +15,7 @@ namespace SozlukProject.Service.Dtos.Response
         // Comment the User Voted
         public int CommentId { get; set; }
 
-        // Discussion where the Comment is written
-        public int DiscussionId { get; set; }
-
         // User who Voted
-        public string? UserUsername { get; set; }
         public int UserId { get; set; }
     }
 }

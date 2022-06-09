@@ -4,7 +4,7 @@ using SozlukProject.Domain.Repositories;
 using SozlukProject.Domain.Responses;
 using SozlukProject.Service.Dtos.Common;
 using SozlukProject.Service.Dtos.Create;
-using SozlukProject.Service.Dtos.Response;
+using SozlukProject.Service.Dtos.Read;
 using SozlukProject.Service.Dtos.Update;
 using System;
 using System.Collections.Generic;
@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace SozlukProject.Service.Services
 {
-    public class BaseService<TEntity, TEntityCreateDto , TEntityUpdateDto , TEntityResponseDto> 
+    public class BaseService<TEntity, TEntityCreateDto, TEntityUpdateDto, TEntityReadDto>
         where TEntity : BaseEntity
         where TEntityCreateDto : BaseEntityCreateDto
         where TEntityUpdateDto : BaseEntityUpdateDto
-        where TEntityResponseDto : BaseEntityResponseDto
+        where TEntityReadDto : BaseEntityReadDto
     {
         readonly private IGenericRepository<TEntity> _genericRepository;
         readonly private IMapper _mapper;
@@ -29,7 +29,7 @@ namespace SozlukProject.Service.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<SortedResponse<IList<TEntityResponseDto>, EntityListSortValues>> GetSortedEntityList(EntityListSortValues sortValues, Expression<Func<TEntity, bool>>? searchWordPredicate = null, Expression<Func<TEntity, object>>? orderByKeySelector = null, Expression<Func<TEntity, bool>>? entitiesByEntityPredicate = null)
+        public virtual async Task<SortedResponse<IList<TEntityReadDto>, EntityListSortValues>> GetSortedEntityList(EntityListSortValues sortValues, Expression<Func<TEntity, bool>>? searchWordPredicate = null, Expression<Func<TEntity, object>>? orderByKeySelector = null, Expression<Func<TEntity, bool>>? entitiesByEntityPredicate = null)
         {
             // First of all, we prepare the list.
             IList<TEntity> entityList;
@@ -57,6 +57,9 @@ namespace SozlukProject.Service.Services
                 if (orderByKeySelector != null)
                     entityList = entityList.AsQueryable().OrderBy(orderByKeySelector).ToList();
             }
+            // Also, lets reset the orderBy if its an invalid input
+            if (orderByKeySelector == null)
+                sortValues.OrderBy = "DateCreated";
 
             // Pagination and Mapping
 
@@ -64,45 +67,91 @@ namespace SozlukProject.Service.Services
             if (sortValues.PageSize == 0)
                 sortValues.PageSize = entityList.Count;
 
-            IList<TEntityResponseDto> mappedEntityList = entityList.Skip((sortValues.PageNumber - 1) * sortValues.PageSize).Take(sortValues.PageSize).Select(entity => _mapper.Map<TEntity, TEntityResponseDto>(entity)).ToList();
+            IList<TEntityReadDto> mappedEntityList = entityList.Skip((sortValues.PageNumber - 1) * sortValues.PageSize).Take(sortValues.PageSize).Select(entity => _mapper.Map<TEntity, TEntityReadDto>(entity)).ToList();
 
-            return new SortedResponse<IList<TEntityResponseDto>, EntityListSortValues>(mappedEntityList, sortValues);
+
+            return new SortedResponse<IList<TEntityReadDto>, EntityListSortValues>(mappedEntityList, sortValues);
         }
 
-        public virtual async Task<BaseResponse> GetEntityById(int entityId)
+        public virtual async Task<SuccessfulResponse<TEntityReadDto>> GetEntityById(int entityId)
+        {
+            TEntity entity = await GetAndCheckEntityById(entityId);
+
+
+            return new SuccessfulResponse<TEntityReadDto>(_mapper.Map<TEntity, TEntityReadDto>(entity));
+        }
+
+        public virtual async Task<SuccessfulResponse<TEntityReadDto>> CreateEntity(TEntityCreateDto entityCreateDto)
+        {
+            // Mapping Dto to Entity
+            TEntity entity = _mapper.Map<TEntityCreateDto, TEntity>(entityCreateDto);
+            // Adding to Database
+            await _genericRepository.AddAsync(entity);
+            await _genericRepository.SaveChangesAsync();
+
+
+            return new SuccessfulResponse<TEntityReadDto>("Entity created.", _mapper.Map<TEntity, TEntityReadDto>(entity));
+        }
+
+        public virtual async Task<SuccessfulResponse<TEntityReadDto>> UpdateEntity(TEntity entity)
+        {
+            await _genericRepository.UpdateAsync(entity);
+            await _genericRepository.SaveChangesAsync();
+
+
+            return new SuccessfulResponse<TEntityReadDto>("Entity updated.", _mapper.Map<TEntity, TEntityReadDto>(entity));
+        }
+
+        public virtual async void UpdateEntityDto(TEntityUpdateDto entityUpdateDto)
+        {
+            TEntity entity = _mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto);
+            await UpdateEntity(entity);
+        }
+
+        public virtual async Task<SuccessfulResponse<int>> DeleteEntity(int entityId)
+        {
+            TEntity entity = await GetAndCheckEntityById(entityId);
+
+            await _genericRepository.DeleteAsync(entity);
+            await _genericRepository.SaveChangesAsync();
+
+
+            return new SuccessfulResponse<int>("Entity deleted.", entityId);
+        }
+
+
+        //// Helpers
+
+        // This helper is for UpdateEntity methods. First step is of Updating an Entity is bringing the Entity and checking if it exists. Instead of writing it in every single Service, we will do it here.
+        public virtual async Task<TEntity> GetAndCheckEntityById(int entityId)
         {
             TEntity entity = await _genericRepository.GetByIdAsync(entityId, false);
             if (entity == null)
-                return new FailResponse("Entity does not exist.");
+                throw new Exception("Entity does not exist.");
 
-            return new SuccessfulResponse<TEntityResponseDto>(_mapper.Map<TEntity, TEntityResponseDto>(entity));
+
+            return entity;
         }
 
-        public virtual async Task<SuccessfulResponse<TEntity>> CreateEntity(TEntityCreateDto entityCreateDto)
+        public async void DeleteEntitiesWhere(Expression<Func<TEntity, bool>> predicate)
         {
-            TEntity entity = _mapper.Map<TEntityCreateDto, TEntity>(entityCreateDto);
-            await _genericRepository.AddAsync(entity);
-            return new SuccessfulResponse<TEntity>("Entity updated.", entity);
-        }
-
-        public virtual async Task<BaseResponse> UpdateEntity(TEntity entity)
-        {
-            //if (await _genericRepository.GetByIdAsync(entityUpdateDto.Id, false) == null)
-            //    return new FailResponse("Entity does not exist.");
-
-            // await _genericRepository.UpdateAsync(_mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto));
-            await _genericRepository.UpdateAsync(entity);
-            return new SuccessfulResponse<TEntity>("Entity updated.", entity);
-        }
-
-        public virtual async Task<BaseResponse> DeleteEntity(int entityId)
-        {
-            if (await _genericRepository.GetByIdAsync(entityId, false) == null)
-                return new FailResponse("Entity does not exist.");
-
-            await _genericRepository.DeleteAsync(entityId);
+            _genericRepository.DeleteWhere(predicate);
             await _genericRepository.SaveChangesAsync();
-            return new SuccessfulResponse<TEntity>("Category deleted.");
+        }
+
+        public async Task<TEntity> GetEntityWhere(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _genericRepository.GetSingleAsync(predicate);
+        }
+
+        public IQueryable<TEntity> GetEntitiesWhere(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _genericRepository.Get(predicate);
+        }
+
+        public IQueryable<TEntityReadDto> GetEntitiesDtoWhere(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _genericRepository.Get(predicate).Select(entity => _mapper.Map<TEntity, TEntityReadDto>(entity));
         }
     }
 }

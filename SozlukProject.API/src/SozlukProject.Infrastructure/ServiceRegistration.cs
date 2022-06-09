@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using SozlukProject.Infrastructure.BCryptNet;
+using SozlukProject.Service.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,16 @@ namespace SozlukProject.Infrastructure
     {
         public static void ImplementInfrastructureServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            // Automapper
+            services.AddAutoMapper(assembly);
+
+            // BCryptNet
+            services.AddScoped<IBCryptNet, BCryptHashing>();
+
+            // Flueant Validation
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(assembly))
+                .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
         }
     }
 }

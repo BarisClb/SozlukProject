@@ -41,13 +41,9 @@ namespace SozlukProject.Persistence.Contexts
             // modelBuilder.Entity<Comment>();
 
 
-            // Discussion
+            //// Discussion
 
-            modelBuilder.Entity<Discussion>()
-                .HasMany(discussion => discussion.Votes)
-                .WithOne(votes => votes.Discussion)
-                .OnDelete(DeleteBehavior.NoAction);
-
+            // modelBuilder.Entity<Discussion>();
 
             // User
 

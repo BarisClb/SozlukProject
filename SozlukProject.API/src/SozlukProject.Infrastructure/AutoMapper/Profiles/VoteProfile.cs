@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SozlukProject.Domain.Entities;
 using SozlukProject.Service.Dtos.Create;
-using SozlukProject.Service.Dtos.Response;
+using SozlukProject.Service.Dtos.Read;
 using SozlukProject.Service.Dtos.Update;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace SozlukProject.Infrastructure.AutoMapper.Profiles
         public VoteProfile()
         {
             // When Creating
-            CreateMap<VoteCreateDto, Vote>();
+            CreateMap<VoteCreateDto, Vote>().ReverseMap();
 
             // When Updating
-            CreateMap<VoteUpdateDto, Vote>();
+            CreateMap<VoteUpdateDto, Vote>().ReverseMap();
 
-            // When Listing/Getting
-            CreateMap<Vote, VoteResponseDto>();
+            // When Listing/Reading
+            CreateMap<Vote, VoteReadDto>().ReverseMap();
         }
     }
 }

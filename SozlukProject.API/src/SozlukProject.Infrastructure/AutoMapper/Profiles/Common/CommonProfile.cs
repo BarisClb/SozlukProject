@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SozlukProject.Domain.Entities;
-using SozlukProject.Service.Dtos.Response;
+using SozlukProject.Service.Dtos.Read;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace SozlukProject.Infrastructure.AutoMapper.Profiles
     {
         public CommonProfile()
         {
-            CreateMap<BaseEntity, BaseEntityResponseDto>();
+            CreateMap<BaseEntity, BaseEntityReadDto>();
         }
     }
 }

@@ -19,6 +19,6 @@ namespace SozlukProject.Service.Dtos.Update
         public int? DiscussionId { get; set; }
 
         // User who Voted
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
     }
 }

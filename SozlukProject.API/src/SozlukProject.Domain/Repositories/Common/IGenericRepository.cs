@@ -30,8 +30,8 @@ namespace SozlukProject.Domain.Repositories
         Task<int> DeleteAsync(int id);
         int DeleteRange(IEnumerable<TEntity> entities);
         Task<int> DeleteRangeAsync(IEnumerable<TEntity> entities);
-        int DeleteRange(Expression<Func<TEntity, bool>> predicate);
-        Task<int> DeleteRangeAsync(Expression<Func<TEntity, bool>> predicate);
+        int DeleteWhere(Expression<Func<TEntity, bool>> predicate);
+        Task<int> DeleteWhereAsync(Expression<Func<TEntity, bool>> predicate);
 
 
         int SaveChanges();

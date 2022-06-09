@@ -9,6 +9,7 @@ namespace SozlukProject.Service.Dtos.Update
     public class CommentUpdateDto : BaseEntityUpdateDto
     {
         public string? Text { get; set; }
+        public int? VoteCount { get; set; }
 
         //// Relations
         // Discussion where the Comment is written

@@ -149,7 +149,7 @@ namespace SozlukProject.Persistence.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public virtual int DeleteRange(Expression<Func<TEntity, bool>> predicate)
+        public virtual int DeleteWhere(Expression<Func<TEntity, bool>> predicate)
         {
             IQueryable<TEntity> query = Table.AsQueryable();
 
@@ -162,7 +162,7 @@ namespace SozlukProject.Persistence.Repositories
             return _context.SaveChanges();
         }
 
-        public virtual async Task<int> DeleteRangeAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<int> DeleteWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
             IQueryable<TEntity> query = Table.AsQueryable();
 

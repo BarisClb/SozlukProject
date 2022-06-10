@@ -9,7 +9,7 @@ namespace SozlukProject.Service.Dtos.Read
     public class CommentReadDto : BaseEntityReadDto
     {
         public string Text { get; set; }
-        public int VoteCount { get; set; }
+        public int VoteRating { get; set; }
 
         //// Relations
         // Discussion where the Comment is written

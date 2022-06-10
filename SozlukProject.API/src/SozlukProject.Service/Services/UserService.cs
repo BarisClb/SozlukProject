@@ -22,14 +22,16 @@ namespace SozlukProject.Service.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
         private readonly IVoteRepository _voteRepository;
         private readonly IBCryptNet _bCryptNet;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IVoteRepository voteRepository, IBCryptNet bCryptNet) : base(userRepository, mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IEmailService emailService, IVoteRepository voteRepository, IBCryptNet bCryptNet) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _emailService = emailService;
 
             _voteRepository = voteRepository;
             _bCryptNet = bCryptNet;
@@ -64,10 +66,15 @@ namespace SozlukProject.Service.Services
 
             // Check Username
             userCreateDto.Username = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Username, "Username");
+            AccountValidator.CheckUsername(userCreateDto.Username);
+            if (await _userRepository.GetSingleAsync(user => user.Username == userCreateDto.Username) != null)
+                return new FailResponse("Username already exists.");
 
             // Check Email
             userCreateDto.Email = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Email, "Email");
             AccountValidator.CheckEmail(userCreateDto.Email);
+            if (await _userRepository.GetSingleAsync(user => user.Email == userCreateDto.Email) != null)
+                return new FailResponse("Email already exists.");
 
             // Check Password
             userCreateDto.Password = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Password, "Password");
@@ -82,7 +89,12 @@ namespace SozlukProject.Service.Services
                     userCreateDto.Admin = true;
             }
 
-            return await CreateEntity(userCreateDto);
+            // Intercept response to send Email
+            SuccessfulResponse<UserReadDto> response = await CreateEntity(userCreateDto);
+            await _emailService.WelcomeEmail(response.Data);
+
+
+            return response;
         }
 
         public async Task<BaseResponse> UpdateUser(UserUpdateDto userUpdateDto)
@@ -103,7 +115,9 @@ namespace SozlukProject.Service.Services
             {
                 userUpdateDto.Username = CommonValidator.TrimAndCheckIfEmpty(userUpdateDto.Username, "Username");
                 // Check if Username has any spaces between
-                AccountValidator.CheckEmail(userUpdateDto.Username);
+                AccountValidator.CheckUsername(userUpdateDto.Username);
+                if (await _userRepository.GetSingleAsync(user => user.Username == userUpdateDto.Username) != null)
+                    return new FailResponse("Username already exists.");
 
                 user.Username = userUpdateDto.Username;
             }
@@ -113,6 +127,8 @@ namespace SozlukProject.Service.Services
                 userUpdateDto.Email = CommonValidator.TrimAndCheckIfEmpty(userUpdateDto.Email, "Email");
                 // Checking Email format
                 AccountValidator.CheckEmail(userUpdateDto.Email);
+                if (await _userRepository.GetSingleAsync(user => user.Email == userUpdateDto.Email) != null)
+                    return new FailResponse("Email already exists.");
 
                 user.Email = userUpdateDto.Email;
             }
@@ -136,6 +152,14 @@ namespace SozlukProject.Service.Services
             // Admin
             if (userUpdateDto.Admin != null)
                 user.Admin = (bool)userUpdateDto.Admin;
+
+            // Active
+            if (userUpdateDto.Active != null)
+                user.Active = (bool)userUpdateDto.Active;
+
+            // Banned
+            if (userUpdateDto.Banned != null)
+                user.Banned = (bool)userUpdateDto.Banned;
 
 
             return await UpdateEntity(user);

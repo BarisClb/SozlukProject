@@ -16,32 +16,52 @@ namespace SozlukProject.Domain.Validations
         }
 
         // Checking Email format
-        public static void CheckEmail(string email)
+        public static bool CheckEmail(string email)
         {
-            Regex emailRegex = new(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
-
-            if (!emailRegex.Match(email).Success)
+            if (!EmailFormat(email))
                 throw new Exception($"Invalid format (example@domain.com).");
+
+
+            return true;
         }
 
         // Checking Username format
-        public static void CheckUsername(string username)
+        public static bool CheckUsername(string username)
         {
-            // Checking if it has spaces
-            Regex singleWhiteSpace = new(" ");
-
-            if (singleWhiteSpace.Match(username).Success)
+            if (SingleWhiteSpace(username))
                 throw new Exception($"Invalid format (Username can't have spaces).");
+
+            if (EmailFormat(username))
+                throw new Exception($"Invalid format (Username can't be in Email format (example@domain.com)).");
+
+
+            return true;
         }
 
-        // Checking Password format -> It is the same as Username format now but we can add different checks too (For example, mush have one Uppercase letter, one Lowercase letter, a Number, a Special Character, can't contain Name/Email, etc)
-        public static void CheckPassword(string username)
+        public static bool CheckPassword(string username)
         {
-            // Checking if it has spaces
+            if (SingleWhiteSpace(username))
+                throw new Exception($"Invalid format (Password can't have spaces).");
+
+
+            return true;
+        }
+
+
+        // Helpers
+        private static bool EmailFormat(string str)
+        {
+            Regex emailRegex = new(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+
+            return emailRegex.Match(str).Success;
+        }
+
+        private static bool SingleWhiteSpace(string str)
+        {
+            // Checking if it has any spaces
             Regex singleWhiteSpace = new(" ");
 
-            if (singleWhiteSpace.Match(username).Success)
-                throw new Exception($"Invalid format (Password can't have spaces).");
+            return singleWhiteSpace.Match(str).Success;
         }
     }
 }

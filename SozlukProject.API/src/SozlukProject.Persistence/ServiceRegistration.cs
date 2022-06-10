@@ -30,11 +30,12 @@ namespace SozlukProject.Persistence
             
             // User
             services.AddScoped<IUserRepository, UserRepository>();
+
+            // UserActivation
+            services.AddScoped<IUserActivationRepository, UserActivationRepository>();
             
             // Vote
             services.AddScoped<IVoteRepository, VoteRepository>();
-
-
         }
     }
 }

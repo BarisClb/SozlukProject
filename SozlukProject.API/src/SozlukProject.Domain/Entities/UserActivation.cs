@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SozlukProject.Domain.Entities
 {
-    public abstract class BaseEntity
+    public class UserActivation : BaseEntity
     {
-        public int Id { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateUpdated { get; set; }
+        public User User { get; set; } = new User();
+        public int? ActivationCode { get; set; }
     }
 }

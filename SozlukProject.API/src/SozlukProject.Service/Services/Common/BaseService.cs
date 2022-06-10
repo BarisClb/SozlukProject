@@ -75,10 +75,10 @@ namespace SozlukProject.Service.Services
 
         public virtual async Task<SuccessfulResponse<TEntityReadDto>> GetEntityById(int entityId)
         {
-            TEntity entity = await GetAndCheckEntityById(entityId);
+            TEntityReadDto entityReadDto = await GetAndCheckEntityByIdDto(entityId);
 
 
-            return new SuccessfulResponse<TEntityReadDto>(_mapper.Map<TEntity, TEntityReadDto>(entity));
+            return new SuccessfulResponse<TEntityReadDto>(entityReadDto);
         }
 
         public virtual async Task<SuccessfulResponse<TEntityReadDto>> CreateEntity(TEntityCreateDto entityCreateDto)
@@ -133,6 +133,14 @@ namespace SozlukProject.Service.Services
             return entity;
         }
 
+        public virtual async Task<TEntityReadDto> GetAndCheckEntityByIdDto(int entityId)
+        {
+            TEntityReadDto entityReadDto = _mapper.Map<TEntity, TEntityReadDto>(await GetAndCheckEntityById(entityId));
+
+
+            return entityReadDto;
+        }
+
         public async void DeleteEntitiesWhere(Expression<Func<TEntity, bool>> predicate)
         {
             _genericRepository.DeleteWhere(predicate);
@@ -144,12 +152,20 @@ namespace SozlukProject.Service.Services
             return await _genericRepository.GetSingleAsync(predicate);
         }
 
+        public async Task<TEntityReadDto> GetEntityWhereDto(Expression<Func<TEntity, bool>> predicate)
+        {
+            TEntity entity = await _genericRepository.GetSingleAsync(predicate);
+
+
+            return _mapper.Map<TEntity, TEntityReadDto>(entity);
+        }
+
         public IQueryable<TEntity> GetEntitiesWhere(Expression<Func<TEntity, bool>> predicate)
         {
             return _genericRepository.Get(predicate);
         }
 
-        public IQueryable<TEntityReadDto> GetEntitiesDtoWhere(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntityReadDto> GetEntitiesWhereDto(Expression<Func<TEntity, bool>> predicate)
         {
             return _genericRepository.Get(predicate).Select(entity => _mapper.Map<TEntity, TEntityReadDto>(entity));
         }

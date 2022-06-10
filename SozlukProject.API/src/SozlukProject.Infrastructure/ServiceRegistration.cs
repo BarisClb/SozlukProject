@@ -1,6 +1,8 @@
 ﻿using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using SozlukProject.Infrastructure.BCryptNet;
+using SozlukProject.Infrastructure.Email;
+using SozlukProject.Infrastructure.Jwt;
 using SozlukProject.Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,11 +18,23 @@ namespace SozlukProject.Infrastructure
         public static void ImplementInfrastructureServices(this IServiceCollection services)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            // Automapper
-            services.AddAutoMapper(assembly);
+
+            //// Dependency Injections
 
             // BCryptNet
             services.AddScoped<IBCryptNet, BCryptHashing>();
+
+            // Jwt
+            services.AddScoped<IJwtService, JwtService>();
+
+            // Email
+            services.AddScoped<IEmailService, EmailService>();
+
+
+            //// Services
+
+            // Automapper
+            services.AddAutoMapper(assembly);
 
             // Flueant Validation
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(assembly))

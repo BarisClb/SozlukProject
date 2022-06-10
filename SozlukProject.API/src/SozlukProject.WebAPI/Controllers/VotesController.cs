@@ -54,13 +54,13 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VoteCreateDto voteCreateDto)
         {
-            return Ok(await _discussionPageService.CreateVote(voteCreateDto));
+            return Ok(await _discussionPageService.CreateOrUpdateVote(voteCreateDto));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(VoteUpdateDto voteUpdateDto)
         {
-            return Ok(await _discussionPageService.UpdateVote(voteUpdateDto));
+            return Ok(await _voteService.UpdateVote());
         }
 
         [HttpDelete("{voteId}")]

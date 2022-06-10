@@ -4,6 +4,7 @@ using SozlukProject.Service.Dtos.Common;
 using SozlukProject.Service.Dtos.Create;
 using SozlukProject.Service.Dtos.Update;
 using SozlukProject.Service.Services;
+using SozlukProject.Service.Services.Implementation;
 
 namespace SozlukProject.WebAPI.Controllers
 {
@@ -12,10 +13,12 @@ namespace SozlukProject.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         readonly private UserService _userService;
+        readonly private AccountService _accountService;
 
-        public UsersController(UserService userService)
+        public UsersController(UserService userService, AccountService accountService)
         {
             _userService = userService;
+            _accountService = accountService;
         }
 
 
@@ -34,7 +37,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserCreateDto userCreateDto)
         {
-            return Ok(await _userService.CreateUser(userCreateDto));
+            return Ok(await _accountService.CreateUser(userCreateDto));
         }
 
         [HttpPut]

@@ -66,9 +66,14 @@ namespace SozlukProject.Service.Services
             return await UpdateEntity(vote);
         }
 
+        public async Task<FailResponse> UpdateVote()
+        {
+            return new FailResponse("Use CreateVote instead of UpdateVote. No need for Vote.Id, it already checks if the Vote exist, with CommentId and UserId info.");
+        }
+
         public async Task<FailResponse> DeleteVote()
         {
-            return new FailResponse("Deleting Votes is not supported.");
+            return new FailResponse("Deleting Votes is not supported. Use CreateVote to 'Un-Vote'.");
         }
     }
 }

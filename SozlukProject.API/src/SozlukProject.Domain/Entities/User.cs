@@ -20,6 +20,9 @@ namespace SozlukProject.Domain.Entities
         // Comments by User
         public ICollection<Comment>? Comments { get; set; }
 
+        // User Activation Code 
+        public UserActivation UserActivation { get; set; }
+
         // Votes by User
         public ICollection<Vote>? Votes { get; set; }
     }

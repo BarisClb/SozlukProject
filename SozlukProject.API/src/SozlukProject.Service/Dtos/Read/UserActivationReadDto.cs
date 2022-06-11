@@ -9,5 +9,6 @@ namespace SozlukProject.Service.Dtos.Read
     public class UserActivationReadDto : BaseEntityReadDto
     {
         public int? ActivationCode { get; set; }
+        public int? ResetPasswordCode { get; set; }
     }
 }

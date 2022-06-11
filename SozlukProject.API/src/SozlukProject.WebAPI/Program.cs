@@ -16,14 +16,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("SozlukProject",
         builder =>
         {
-            //builder.WithOrigins("http://localhost:3000",
-            //                           "http://localhost:3001")
-            //                           .AllowAnyHeader()
-            //                           .AllowAnyMethod()
-            //                           .AllowCredentials();
-            builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader()
-                                                                                                           .AllowAnyMethod()
-                                                                                                           .AllowCredentials();
+            builder.WithOrigins("http://localhost:3000",
+                                       "http://localhost:3001")
+                                       .AllowAnyHeader()
+                                       .AllowAnyMethod()
+                                       .AllowCredentials();
+            //builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader()
+            //                                                                                               .AllowAnyMethod()
+            //                                                                                               .AllowCredentials();
         });
 });
 

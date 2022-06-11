@@ -63,7 +63,7 @@ namespace SozlukProject.Service.Services
             userIds = userIds.Distinct().ToList();
             foreach (int id in userIds)
             {
-                User user = await _userService.GetAndCheckEntityById(id);
+                User user = await _userService.GetAndCheckEntityById(id, "User");
                 users.Add(_mapper.Map<User, UserDiscussionPageReadDto>(user));
             }
 
@@ -77,7 +77,7 @@ namespace SozlukProject.Service.Services
         public async Task<SuccessfulResponse<CommentReadDto>> CreateComment(CommentCreateDto commentCreateDto)
         {
             // First, check if Discussion exist.
-            Discussion discussion = await _discussionService.GetAndCheckEntityById(commentCreateDto.DiscussionId);
+            Discussion discussion = await _discussionService.GetAndCheckEntityById(commentCreateDto.DiscussionId, "Discussion");
 
             // Then we edit the Text, First Trim() and then Replace multiple whitespaces with single whitespace.
             commentCreateDto.Text = CommonValidator.TrimAndClearMultipleWhitespaces(commentCreateDto.Text);
@@ -95,13 +95,13 @@ namespace SozlukProject.Service.Services
         public async Task<SuccessfulResponse<int>> DeleteComment(int commentId)
         {
             // First, get the Comment
-            Comment comment = await _commentService.GetAndCheckEntityById(commentId);
+            Comment comment = await _commentService.GetAndCheckEntityById(commentId, "Comment");
 
             // First, check if Discussion exist.
-            Discussion discussion = await _discussionService.GetAndCheckEntityById(comment.DiscussionId);
+            Discussion discussion = await _discussionService.GetAndCheckEntityById(comment.DiscussionId, "Discussion");
 
             // Intercepting the Response and Update the Discussion
-            SuccessfulResponse<int> response = await _commentService.DeleteEntity(commentId);
+            SuccessfulResponse<int> response = await _commentService.DeleteEntity(commentId, "Comment");
 
             // Triggering the Update on Discussion
             await UpdateDiscussionCommentCount(discussion);
@@ -114,7 +114,7 @@ namespace SozlukProject.Service.Services
         {
             Vote vote = await _voteService.GetEntityWhere(vote => vote.UserId == voteCreateDto.UserId && vote.CommentId == voteCreateDto.CommentId);
 
-            Comment comment = await _commentService.GetAndCheckEntityById(voteCreateDto.CommentId);
+            Comment comment = await _commentService.GetAndCheckEntityById(voteCreateDto.CommentId, "Comment");
 
             // To intercept the Response and update Comment
             SuccessfulResponse<VoteReadDto> response;

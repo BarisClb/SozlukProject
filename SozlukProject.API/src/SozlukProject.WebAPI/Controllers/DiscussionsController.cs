@@ -46,7 +46,7 @@ namespace SozlukProject.WebAPI.Controllers
         [HttpDelete("{discussionId}")]
         public async Task<IActionResult> Delete(int discussionId)
         {
-            return Ok(await _discussionService.DeleteEntity(discussionId));
+            return Ok(await _discussionService.DeleteEntity(discussionId, "Discussion"));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace SozlukProject.Service.Services
         public async Task<BaseResponse> UpdateComment(CommentUpdateDto commentUpdateDto)
         {
             // First of all, we get and check if the entity exist
-            Comment comment = await GetAndCheckEntityById(commentUpdateDto.Id);
+            Comment comment = await GetAndCheckEntityById(commentUpdateDto.Id, "Comment");
 
             // We edit the Text (if its being updated), First Trim() and then Replace multiple whitespaces with single whitespace.
             if (commentUpdateDto.Text != null)

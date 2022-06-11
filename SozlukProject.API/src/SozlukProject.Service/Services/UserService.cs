@@ -59,7 +59,7 @@ namespace SozlukProject.Service.Services
             return await GetSortedEntityList(sortValues, searchWordPredicate, orderByKeySelector);
         }
 
-        public async Task<BaseResponse> CreateUser(UserCreateDto userCreateDto)
+        public async Task<UserReadDto> CreateUser(UserCreateDto userCreateDto)
         {
             // Check Name
             userCreateDto.Name = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Name, "Name");
@@ -68,13 +68,13 @@ namespace SozlukProject.Service.Services
             userCreateDto.Username = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Username, "Username");
             AccountValidator.CheckUsername(userCreateDto.Username);
             if (await _userRepository.GetSingleAsync(user => user.Username == userCreateDto.Username) != null)
-                return new FailResponse("Username already exists.");
+                throw new Exception("Username already exists.");
 
             // Check Email
             userCreateDto.Email = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Email, "Email");
             AccountValidator.CheckEmail(userCreateDto.Email);
             if (await _userRepository.GetSingleAsync(user => user.Email == userCreateDto.Email) != null)
-                return new FailResponse("Email already exists.");
+                throw new Exception("Email already exists.");
 
             // Check Password
             userCreateDto.Password = CommonValidator.TrimAndCheckIfEmpty(userCreateDto.Password, "Password");
@@ -94,13 +94,13 @@ namespace SozlukProject.Service.Services
             await _emailService.WelcomeEmail(response.Data);
 
 
-            return response;
+            return response.Data;
         }
 
-        public async Task<BaseResponse> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<SuccessfulResponse<UserReadDto>> UpdateUser(UserUpdateDto userUpdateDto)
         {
             // First of all, we get and check if entity exist
-            User user = await GetAndCheckEntityById(userUpdateDto.Id);
+            User user = await GetAndCheckEntityById(userUpdateDto.Id, "User");
 
             //// Then we move on the the properties
             // Name
@@ -117,7 +117,7 @@ namespace SozlukProject.Service.Services
                 // Check if Username has any spaces between
                 AccountValidator.CheckUsername(userUpdateDto.Username);
                 if (await _userRepository.GetSingleAsync(user => user.Username == userUpdateDto.Username) != null)
-                    return new FailResponse("Username already exists.");
+                    throw new Exception("Username already exists.");
 
                 user.Username = userUpdateDto.Username;
             }
@@ -128,7 +128,7 @@ namespace SozlukProject.Service.Services
                 // Checking Email format
                 AccountValidator.CheckEmail(userUpdateDto.Email);
                 if (await _userRepository.GetSingleAsync(user => user.Email == userUpdateDto.Email) != null)
-                    return new FailResponse("Email already exists.");
+                    throw new Exception("Email already exists.");
 
                 user.Email = userUpdateDto.Email;
             }
@@ -172,7 +172,7 @@ namespace SozlukProject.Service.Services
             await _voteRepository.DeleteWhereAsync(vote => vote.UserId == userId);
 
             // After that, we will delete the User.
-            return (await DeleteEntity(userId));
+            return await DeleteEntity(userId, "User");
         }
     }
 }

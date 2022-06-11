@@ -11,7 +11,7 @@ namespace SozlukProject.Service.Contracts
 {
     public interface IJwtService
     {
-        string GenerateJwt(int id);
-        JwtSecurityToken Verify(string jwt);
+        Task<string> GenerateJwt(int id);
+        Task<JwtSecurityToken> Verify(string jwt);
     }
 }

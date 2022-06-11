@@ -25,6 +25,9 @@ namespace SozlukProject.Service
             // Discussion
             services.AddScoped<DiscussionService>();
 
+            // Discussion Page
+            services.AddScoped<DiscussionPageService>();
+
             // User
             services.AddScoped<UserService>();
 
@@ -33,9 +36,6 @@ namespace SozlukProject.Service
 
             // Vote
             services.AddScoped<VoteService>();
-
-            // Discussion Page
-            services.AddScoped<DiscussionPageService>();
 
         }
     }

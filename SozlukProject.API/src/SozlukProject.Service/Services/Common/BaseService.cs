@@ -108,9 +108,9 @@ namespace SozlukProject.Service.Services
             await UpdateEntity(entity);
         }
 
-        public virtual async Task<SuccessfulResponse<int>> DeleteEntity(int entityId)
+        public virtual async Task<SuccessfulResponse<int>> DeleteEntity(int entityId, string entityName = null)
         {
-            TEntity entity = await GetAndCheckEntityById(entityId);
+            TEntity entity = await GetAndCheckEntityById(entityId, entityName);
 
             await _genericRepository.DeleteAsync(entity);
             await _genericRepository.SaveChangesAsync();
@@ -123,11 +123,11 @@ namespace SozlukProject.Service.Services
         //// Helpers
 
         // This helper is for UpdateEntity methods. First step is of Updating an Entity is bringing the Entity and checking if it exists. Instead of writing it in every single Service, we will do it here.
-        public virtual async Task<TEntity> GetAndCheckEntityById(int entityId)
+        public virtual async Task<TEntity> GetAndCheckEntityById(int entityId, string entityName = null)
         {
             TEntity entity = await _genericRepository.GetByIdAsync(entityId, false);
             if (entity == null)
-                throw new Exception("Entity does not exist.");
+                throw new Exception($"{entityName ?? "Entity"} does not exist.");
 
 
             return entity;

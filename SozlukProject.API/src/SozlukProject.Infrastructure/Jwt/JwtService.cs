@@ -15,7 +15,7 @@ namespace SozlukProject.Infrastructure.Jwt
     {
         private static readonly string secureKey = "I wrote this text to set a SecureKey to implement Jwt!";
 
-        public string GenerateJwt(int id)
+        public async Task<string> GenerateJwt(int id)
         {
             SymmetricSecurityKey symmetricSecurityKey = new(Encoding.UTF8.GetBytes(secureKey));
             SigningCredentials credentials = new(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -27,7 +27,7 @@ namespace SozlukProject.Infrastructure.Jwt
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
 
-        public JwtSecurityToken Verify(string jwt)
+        public async Task<JwtSecurityToken> Verify(string jwt)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             byte[] key = Encoding.ASCII.GetBytes(secureKey);

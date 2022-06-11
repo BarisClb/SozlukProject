@@ -52,7 +52,7 @@ namespace SozlukProject.Service.Services
         public async Task<BaseResponse> UpdateVote(VoteUpdateDto voteUpdateDto)
         {
             // First of all, we get and check if the entity exist
-            Vote vote = await GetAndCheckEntityById(voteUpdateDto.Id);
+            Vote vote = await GetAndCheckEntityById(voteUpdateDto.Id, "Vote");
 
             // Check if the Comment is being updated.
             if (voteUpdateDto.DiscussionId != null)

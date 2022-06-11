@@ -9,7 +9,8 @@ namespace SozlukProject.Service.Contracts
 {
     public interface IEmailService
     {
-        Task ActivationEmail(UserReadDto user);
-        Task WelcomeEmail(UserReadDto user);
+        Task<int> ActivationEmail(UserReadDto user);
+        Task<int> WelcomeEmail(UserReadDto user);
+        Task<int> ForgotPassword(string email);
     }
 }

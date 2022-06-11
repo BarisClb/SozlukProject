@@ -51,7 +51,7 @@ namespace SozlukProject.Service.Services
         public async Task<BaseResponse> UpdateDiscussion(DiscussionUpdateDto discussionUpdateDto)
         {
             // First of all, we get and check if the entity exist
-            Discussion discussion = await GetAndCheckEntityById(discussionUpdateDto.Id);
+            Discussion discussion = await GetAndCheckEntityById(discussionUpdateDto.Id, "Discussion");
 
             // We edit the Text (if its being updated), First Trim() and then Replace multiple whitespaces with single whitespace.
             if (discussionUpdateDto.Title != null)
@@ -68,7 +68,7 @@ namespace SozlukProject.Service.Services
         public async void UpdateCommentCount(int discussionId, int commentCount)
         {
             // Updating the Discussion via CommentCount
-            Discussion discussion = await GetAndCheckEntityById(discussionId);
+            Discussion discussion = await GetAndCheckEntityById(discussionId, "Discussion");
             discussion.CommentCount = commentCount;
 
 

@@ -8,7 +8,8 @@ namespace SozlukProject.Domain.Entities
 {
     public class UserActivation : BaseEntity
     {
-        public User User { get; set; } = new User();
+        public User User { get; set; }
         public int? ActivationCode { get; set; }
+        public int? ResetPasswordCode { get; set; }
     }
 }

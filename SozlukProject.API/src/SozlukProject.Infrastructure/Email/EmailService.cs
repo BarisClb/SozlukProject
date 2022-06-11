@@ -12,7 +12,7 @@ namespace SozlukProject.Infrastructure.Email
 {
     public class EmailService : IEmailService
     {
-        public async Task ActivationEmail(UserReadDto user)
+        public async Task<int> ActivationEmail(UserReadDto user)
         {
             int activationCode = new Random().Next(1000, 9999);
 
@@ -21,17 +21,41 @@ namespace SozlukProject.Infrastructure.Email
             string text = $"Your Account Activation code is {activationCode}.";
 
             await SendEmail(receiverEmail, subject, text);
+
+
+            return activationCode;
         }
 
-        public async Task WelcomeEmail(UserReadDto user)
+        public async Task<int> WelcomeEmail(UserReadDto user)
         {
+            int activationCode = new Random().Next(1000, 9999);
+
             string receiverEmail = user.Email;
             string subject = $"Welcome, {user.Username}!";
-            string text = $"Don't forget to Activate your account!";
+            string text = $"Hope you have a great time! Don't forget your activation code: {activationCode}";
 
             await SendEmail(receiverEmail, subject, text);
+
+
+            return activationCode;
         }
 
+        public async Task<int> ForgotPassword(string email)
+        {
+            int passwordResetCode = new Random().Next(1000, 9999);
+
+            string receiverEmail = email;
+            string subject = "Password reset code";
+            string text = $"Your Password reset code is {passwordResetCode}.";
+
+            await SendEmail(receiverEmail, subject, text);
+
+
+            return passwordResetCode;
+        }
+
+
+        // Helpers
 
         public static async Task SendEmail(string receiverEmail, string subject, string text)
         {

@@ -10,5 +10,6 @@ namespace SozlukProject.Service.Dtos.Create
     {
         public int Id { get; set; }
         public int? ActivationCode { get; set; }
+        public int? ResetPasswordCode { get; set; }
     }
 }

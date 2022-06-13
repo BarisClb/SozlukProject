@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SozlukProject.WebAPI.Models.Entities.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SozlukProject.Domain.Entities
+namespace SozlukProject.WebAPI.Models.Entities
 {
     public class Discussion : BaseEntity
     {

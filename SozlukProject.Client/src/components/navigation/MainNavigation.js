@@ -1,16 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./css/index.css";
 
 function MainNavigation() {
+	const navigate = useNavigate();
+	let searchValue = useRef("");
+	const searchClick = () => {
+		navigate(`/${searchValue.current}`);
+	};
 	return (
-		<nav id="main-navigation" className="nav nav-pills flex-column flex-sm-row">
-			<Link to="/pageone">Page One</Link>
-			<Link to="/">
-				<h2>Main Page</h2>
-			</Link>
-			<Link to="/pagetwo">Page Two</Link>
-		</nav>
+		<div id="main-navigation" className="nav flex-row">
+			<div id="main-navigation-row" className="row">
+				<div id="navbar-logo-section" className="col-sm-4">
+					<img alt="logo" src="/CelebiSozlukLogo.png" id="main-navigation-logo" />
+				</div>
+				<div id="navbar-searchbar-section" className="col-sm-8 col-md-6">
+					<form className="d-flex">
+						<input
+							className="form-control me-2"
+							type="search"
+							placeholder="Search Product"
+							aria-label="Search"
+							defaultValue={searchValue.current}
+							onChange={(e) => (searchValue.current = e.target.value)}
+						/>
+						<div className="btn btn-outline-primary" onClick={() => searchClick()}>
+							Search
+						</div>
+					</form>
+				</div>
+				<div id="navbar-profile-section" className="col">
+					<div className="col">Profile</div>
+					<div className="col">Sign Out</div>
+				</div>
+			</div>
+		</div>
 	);
 }
 

@@ -1,0 +1,58 @@
+@mixin navItemDisplay() {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+#main-navigation {
+	display: flex;
+	border-top: solid 3px blue;
+	border-bottom: solid 1px black;
+	min-height: 60px;
+	white-space: nowrap;
+
+	#main-navigation-row {
+		width: 100%;
+		max-width: 1000px;
+		margin: auto;
+		justify-content: center;
+		align-items: center;
+
+		#navbar-logo-section {
+			@include navItemDisplay();
+			justify-content: center;
+
+			#main-navigation-logo {
+				height: 2rem;
+			}
+		}
+
+		#navbar-searchbar-section {
+			@include navItemDisplay();
+			padding-left: 2rem;
+		}
+
+		#navbar-profile-section {
+			@include navItemDisplay();
+			justify-content: end;
+			text-align: center;
+		}
+	}
+}
+
+@media screen and (max-width: 1265px) {
+}
+
+@media screen and (max-width: 1090px) {
+}
+
+@media screen and (max-width: 850px) {
+	#main-navigation {
+		#navbar-searchbar-section {
+			padding-left: 0px;
+		}
+		#navbar-profile-section {
+			padding-right: 1rem;
+		}
+	}
+}

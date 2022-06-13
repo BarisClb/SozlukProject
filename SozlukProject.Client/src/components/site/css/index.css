@@ -1,0 +1,63 @@
+#mainpage-content-wrapper {
+  max-width: 1200px;
+  height: calc(100vh - 60px);
+  margin: 0px auto;
+  padding-top: 30px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+#mainpage-content-wrapper #mainpage-discussion-list::-webkit-scrollbar {
+  width: 8px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0);
+  border-radius: 15px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.7);
+  border-radius: 15px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-lis-header {
+  font-size: 20px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list {
+  padding: 0px;
+  list-style: none;
+  font-size: 14px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list a {
+  text-decoration: none;
+  color: black;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list .discussion-list-discussion {
+  padding: 0px;
+  position: relative;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list .discussion-list-discussion .discussion-list-discussion-title {
+  display: block;
+  padding: 10px 55px 10px 0px;
+  overflow-wrap: anywhere;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list .discussion-list-discussion .discussion-list-discussion-title .discussion-list-discussion-comment-count {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+#mainpage-content-wrapper #mainpage-discussion-list #discussion-list .discussion-list-discussion:hover {
+  background-color: rgba(128, 128, 128, 0.07);
+}
+#mainpage-content-wrapper #mainpage-discussion {
+  padding: 0px 15px;
+}
+
+@media screen and (max-width: 750px) {
+  #mainpage-content-wrapper #mainpage-discussion-list {
+    display: none;
+  }
+}/*# sourceMappingURL=index.css.map */

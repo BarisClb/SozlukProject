@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SozlukProject.Domain.Repositories
 {
-    public interface IGenericRepository<TEntity> where TEntity : BaseEntity
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
         // Read
         Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true);

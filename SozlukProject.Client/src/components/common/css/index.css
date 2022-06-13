@@ -63,8 +63,8 @@
 #welcome-page-wrapper,
 #page-one-wrapper,
 #page-two-wrapper {
-	width: 100vw;
-	height: calc(100vh - 50px);
+	width: 100%;
+	height: calc(100vh - 54px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

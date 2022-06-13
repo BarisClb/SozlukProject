@@ -21,14 +21,16 @@ builder.Services.AddCors(options =>
                                        .AllowAnyHeader()
                                        .AllowAnyMethod()
                                        .AllowCredentials();
-            //builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader()
-            //                                                                                               .AllowAnyMethod()
-            //                                                                                               .AllowCredentials();
         });
+});
+// Logger
+builder.Services.AddLogging(c =>
+{
+    c.AddDebug();
+    c.AddConsole();
 });
 
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -40,11 +42,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Cors
+app.UseCors("SozlukProject");
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

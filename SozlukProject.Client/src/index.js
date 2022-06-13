@@ -12,6 +12,7 @@ import CommonMain from "./screens/common/CommonMain";
 import Welcome from "./screens/common/Welcome";
 import PageOne from "./components/common/PageOne";
 import PageTwo from "./components/common/PageTwo";
+import MainPage from "./components/site/MainPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,7 +22,7 @@ root.render(
 				<Routes>
 					{/* I use a single 'roof' Route to access all the related routes (For common checks, like 'darkMode' and Auth purposes, etc) */}
 					<Route path="/" element={<CommonMain />}>
-						<Route path="/" element={<Welcome />} />
+						<Route path="/" element={<MainPage />} />
 						<Route path="/pageone" element={<PageOne />} />
 						<Route path="/pagetwo" element={<PageTwo />} />
 					</Route>

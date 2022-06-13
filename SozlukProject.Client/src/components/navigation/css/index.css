@@ -1,13 +1,45 @@
 #main-navigation {
-	height: 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-bottom: solid 1px black;
-	gap: 3rem;
+  display: flex;
+  border-top: solid 3px blue;
+  border-bottom: solid 1px black;
+  min-height: 60px;
+  white-space: nowrap;
+}
+#main-navigation #main-navigation-row {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+#main-navigation #main-navigation-row #navbar-logo-section {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+#main-navigation #main-navigation-row #navbar-logo-section #main-navigation-logo {
+  height: 2rem;
+}
+#main-navigation #main-navigation-row #navbar-searchbar-section {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 2rem;
+}
+#main-navigation #main-navigation-row #navbar-profile-section {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: end;
+  text-align: center;
 }
 
-#main-navigation a {
-	text-decoration: none;
-	color: rgba(rgb(15, 45, 75), green, blue, alpha);
-}
+@media screen and (max-width: 850px) {
+  #main-navigation #navbar-searchbar-section {
+    padding-left: 0px;
+  }
+  #main-navigation #navbar-profile-section {
+    padding-right: 1rem;
+  }
+}/*# sourceMappingURL=index.css.map */

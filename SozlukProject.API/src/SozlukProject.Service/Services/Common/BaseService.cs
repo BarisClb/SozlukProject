@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using SozlukProject.Domain.Entities;
 using SozlukProject.Domain.Repositories;
 using SozlukProject.Domain.Responses;
 using SozlukProject.Service.Dtos.Common;
-using SozlukProject.Service.Dtos.Create;
-using SozlukProject.Service.Dtos.Read;
-using SozlukProject.Service.Dtos.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +12,10 @@ using System.Threading.Tasks;
 namespace SozlukProject.Service.Services
 {
     public class BaseService<TEntity, TEntityCreateDto, TEntityUpdateDto, TEntityReadDto>
-        where TEntity : BaseEntity
-        where TEntityCreateDto : BaseEntityCreateDto
-        where TEntityUpdateDto : BaseEntityUpdateDto
-        where TEntityReadDto : BaseEntityReadDto
+        where TEntity : class
+        where TEntityCreateDto : class
+        where TEntityUpdateDto : class
+        where TEntityReadDto : class
     {
         readonly private IGenericRepository<TEntity> _genericRepository;
         readonly private IMapper _mapper;
@@ -102,10 +98,12 @@ namespace SozlukProject.Service.Services
             return new SuccessfulResponse<TEntityReadDto>("Entity updated.", _mapper.Map<TEntity, TEntityReadDto>(entity));
         }
 
-        public virtual async void UpdateEntityDto(TEntityUpdateDto entityUpdateDto)
+        public virtual async Task<SuccessfulResponse<TEntityReadDto>> UpdateEntityDto(TEntityUpdateDto entityUpdateDto)
         {
             TEntity entity = _mapper.Map<TEntityUpdateDto, TEntity>(entityUpdateDto);
-            await UpdateEntity(entity);
+
+
+            return await UpdateEntity(entity);
         }
 
         public virtual async Task<SuccessfulResponse<int>> DeleteEntity(int entityId, string entityName = null)
